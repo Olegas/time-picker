@@ -1,0 +1,30 @@
+{
+  "name": "time-picker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Oleg Elifantiev <oleg@elifaniev.ru>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "run": "parcel ./examples/demo/index.html",
+    "build": ""
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "7.17",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.1",
+    "@types/react": "^17",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.0",
+    "jest": "^27.5.1",
+    "parcel": "^2.4.1",
+    "prettier": "^2.6.2",
+    "react": "^17",
+    "react-dom": "^17",
+    "typescript": "^4.6.3"
+  }
+}
