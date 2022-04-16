@@ -1,10 +1,16 @@
-import { TransitionResult, Selection } from "./types";
+import { Transition, TransitionResult } from "./types";
 
-export function inputTransition(value: string, selection: Selection, input: string): TransitionResult {
+export function inputTransition(transition: Transition): TransitionResult {
+  const { before, input } = transition;
+  const { value, selection } = before;
+
   if (selection.from >= 5) {
     return {
-      value,
-      selection
+      ...transition,
+      after: {
+        value,
+        selection
+      }
     };
   }
 
@@ -32,10 +38,13 @@ export function inputTransition(value: string, selection: Selection, input: stri
 
   from += from === 1 ? 2 : 1;
   return {
-    value: newValue,
-    selection: {
-      from,
-      to: from
+    ...transition,
+    after: {
+      value: newValue,
+      selection: {
+        from,
+        to: from
+      }
     }
   };
 }

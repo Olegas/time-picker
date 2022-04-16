@@ -3,7 +3,17 @@ export interface Selection {
   to: number;
 }
 
-export interface TransitionResult {
+interface State {
   value: string;
   selection: Selection;
+}
+
+export interface Transition {
+  input: string;
+  before: Readonly<State>;
+  after?: State;
+}
+
+export interface TransitionResult extends Transition {
+  after: State;
 }

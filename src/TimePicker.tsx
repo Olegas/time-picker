@@ -1,6 +1,8 @@
-import React, { ChangeEvent, useCallback } from "react";
+import React, { useCallback } from "react";
 import { inputTransition } from "./inputTransition";
 import {
+  beginTransition,
+  finishTransition,
   isControlKeys,
   isControlModifiers,
   isNumeric,
@@ -9,31 +11,17 @@ import {
   withInputModifiers,
   withoutAnyModifiers
 } from "./util";
-import { changeTransition } from "./changeTransition";
 import { predictorTransition } from "./predictorTransition";
-
-interface Props {
-  value: string;
-  onChange: (value: string) => void;
-}
 
 export default function TimePicker() {
   const keyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const { currentTarget, key } = event;
-    const { selectionStart: from, selectionEnd: to, value } = currentTarget;
-
-    // Haw can it be?
-    if (from === null || to === null) return;
-
     if (isSeparator(event)) {
       // TODO support separator
       event.preventDefault();
     } else if (withoutAnyModifiers(event) && isNumeric(event)) {
-      let result = inputTransition(value, { from, to }, key);
-      result = predictorTransition(result.value, result.selection, key);
-      currentTarget.value = result.value;
-      currentTarget.selectionStart = result.selection.from;
-      currentTarget.selectionEnd = result.selection.to;
+      const transition = beginTransition(event);
+      if (transition === null) return;
+      finishTransition(event, predictorTransition(inputTransition(transition)));
       event.preventDefault();
     } else if (isControlKeys(event) || isControlModifiers(event)) {
       return;

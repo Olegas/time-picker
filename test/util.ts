@@ -30,20 +30,40 @@ export function createInputTestCase(definition: string): void {
   };
   const textValue = stripCursorMarkers(fieldState);
   it(definition, () => {
-    expect(inputTransition(textValue, selection, input)).toEqual(transitionResult);
+    expect(
+      inputTransition({
+        input,
+        before: {
+          value: textValue,
+          selection
+        }
+      }).after
+    ).toEqual(transitionResult);
   });
 }
 
 export function createPredictorTransitionTestCase(definition: string): void {
-  const [from, to] = definition.split("=");
+  const [from, ...to] = definition.split("=");
   const [currentValue, input] = from.split("+");
   const selectionBefore = parseSelection(from);
 
   const transitionResult = {
-    selection: parseSelection(to),
-    value: stripCursorMarkers(to)
+    selection: parseSelection(to[1]),
+    value: stripCursorMarkers(to[1])
   };
   it(definition, () => {
-    expect(predictorTransition(stripCursorMarkers(currentValue), selectionBefore, input)).toEqual(transitionResult);
+    expect(
+      predictorTransition({
+        input,
+        before: {
+          value: stripCursorMarkers(currentValue),
+          selection: selectionBefore
+        },
+        after: {
+          selection: parseSelection(to[0]),
+          value: stripCursorMarkers(to[0])
+        }
+      }).after
+    ).toEqual(transitionResult);
   });
 }
