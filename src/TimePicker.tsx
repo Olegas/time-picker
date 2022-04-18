@@ -13,6 +13,7 @@ import {
 } from './util';
 import { predictorTransition } from './predictorTransition';
 import { pasteTransition } from './pasteTransition';
+import { backspaceTransition } from "./backspaceTransition";
 
 export default function TimePicker() {
   const keyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -25,6 +26,11 @@ export default function TimePicker() {
       finishTransition(event, predictorTransition(inputTransition(transition)));
       event.preventDefault();
     } else if (isControlKeys(event) || isControlModifiers(event)) {
+      const transition = beginTransition(event);
+      if (transition === null) return;
+      if (finishTransition(event, backspaceTransition(transition))) {
+        event.preventDefault();
+      }
       return;
     } else if (withInputModifiers(event) || isSpace(event)) {
       event.preventDefault();

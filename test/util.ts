@@ -2,6 +2,7 @@ import { inputTransition } from '../src/inputTransition';
 import { Selection } from '../src/types';
 import { predictorTransition } from '../src/predictorTransition';
 import { pasteTransition } from '../src/pasteTransition';
+import { backspaceTransition } from '../src/backspaceTransition';
 
 function parseSelection(line: string): Selection {
   const from = line.indexOf('|');
@@ -81,5 +82,27 @@ export function createPasteTransitionTestCase(definition: string) {
       selection: parseSelection(after),
       value: stripCursorMarkers(after)
     });
+  });
+}
+
+export function createBackspaceTransitionTestCase(definition: string): void {
+  const [before, after] = definition.split('=');
+  const fieldState = before.replace('<-', '');
+  const selection = parseSelection(fieldState);
+  const textValue = stripCursorMarkers(fieldState);
+  const transitionResult = {
+    selection: parseSelection(after),
+    value: stripCursorMarkers(after)
+  };
+  it(definition, () => {
+    expect(
+      backspaceTransition({
+        input: 'Backspace',
+        before: {
+          value: textValue,
+          selection
+        }
+      }).after
+    ).toEqual(transitionResult);
   });
 }

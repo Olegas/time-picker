@@ -1,17 +1,12 @@
 import { Transition, TransitionResult } from './types';
+import { cursor, untouched } from './util';
 
 export function inputTransition(transition: Transition): TransitionResult {
   const { before, input } = transition;
   const { value, selection } = before;
 
   if (selection.from >= 5) {
-    return {
-      ...transition,
-      after: {
-        value,
-        selection
-      }
-    };
+    return untouched(transition);
   }
 
   const valueWithSelectionCleared =
@@ -41,10 +36,7 @@ export function inputTransition(transition: Transition): TransitionResult {
     ...transition,
     after: {
       value: newValue,
-      selection: {
-        from,
-        to: from
-      }
+      selection: cursor(from)
     }
   };
 }

@@ -69,12 +69,18 @@ export function beginTransition(
 export function finishTransition(
   event: React.UIEvent<HTMLInputElement> | React.ClipboardEvent<HTMLInputElement>,
   transition: TransitionResult
-): void {
+): boolean {
   const { currentTarget: target } = event;
   const { after } = transition;
+  const changes =
+    target.value !== after.value ||
+    target.selectionStart !== after.selection.from ||
+    target.selectionEnd !== after.selection.to;
   target.value = after.value;
   target.selectionStart = after.selection.from;
   target.selectionEnd = after.selection.to;
+
+  return changes;
 }
 
 export function cursor(pos: number): Selection {
