@@ -13,7 +13,7 @@ export function predictorTransition(transition: Transition): TransitionResult {
 
   if (from < 2) {
     // Hours are changed
-    if (+h > 24) {
+    if (+h >= 24) {
       if (from === 0) {
         if (+input >= 3) {
           return {
@@ -27,7 +27,7 @@ export function predictorTransition(transition: Transition): TransitionResult {
         return {
           ...transition,
           after: {
-            value: `24:${m}`,
+            value: `23:${m}`,
             selection: cursor(1)
           }
         };
@@ -35,7 +35,7 @@ export function predictorTransition(transition: Transition): TransitionResult {
         return {
           ...transition,
           after: {
-            value: `24:${m}`,
+            value: `23:${m}`,
             selection: cursor(3)
           }
         };

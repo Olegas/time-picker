@@ -7,9 +7,9 @@
   "scripts": {
     "prepare": "husky install",
     "eslint": "eslint src/**/*",
-    "eslint:fix": "eslint --fix src/**/*",
-    "prettier": "prettier src/**/*",
-    "prettier:fix": "prettier --write src/**/*",
+    "eslint:fix": "eslint --fix src/**/*.ts test/**/*.ts examples/**/*.js",
+    "prettier": "prettier .",
+    "prettier:fix": "prettier --write src/**/* test/**/* examples/**/*",
     "test": "jest",
     "demo": "parcel ./examples/demo/index.html",
     "build": ""
@@ -41,8 +41,8 @@
   },
   "lint-staged": {
     "**/*.ts": [
-      "prettier --write src/**/*",
-      "eslint --fix src/**/*",
+      "yarn prettier:fix",
+      "yarn eslint:fix",
       "jest --bail --findRelatedTests"
     ]
   }
