@@ -13,7 +13,7 @@ import {
 } from './util';
 import { predictorTransition } from './predictorTransition';
 import { pasteTransition } from './pasteTransition';
-import { backspaceTransition } from "./backspaceTransition";
+import { backspaceTransition } from './backspaceTransition';
 
 export default function TimePicker() {
   const keyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
