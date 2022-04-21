@@ -6,8 +6,12 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
+    "eslint": "eslint src/**/*",
+    "eslint:fix": "eslint --fix src/**/*",
+    "prettier": "prettier src/**/*",
+    "prettier:fix": "prettier --write src/**/*",
     "test": "jest",
-    "run": "parcel ./examples/demo/index.html",
+    "demo": "parcel ./examples/demo/index.html",
     "build": ""
   },
   "devDependencies": {
@@ -37,10 +41,9 @@
   },
   "lint-staged": {
     "**/*.ts": [
-      "prettier --write",
-      "eslint src/ --fix",
-      "jest --bail --findRelatedTests",
-      "git add"
+      "prettier --write src/**/*",
+      "eslint --fix src/**/*",
+      "jest --bail --findRelatedTests"
     ]
   }
 }

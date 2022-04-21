@@ -1,8 +1,8 @@
-import React from "react";
-import { Selection, Transition, TransitionResult } from "./types";
+import React from 'react';
+import { Selection, Transition, TransitionResult } from './types';
 
-const ZERO = "0".charCodeAt(0);
-const NINE = "9".charCodeAt(0);
+const ZERO = '0'.charCodeAt(0);
+const NINE = '9'.charCodeAt(0);
 
 export function withoutAnyModifiers(event: React.KeyboardEvent<HTMLInputElement>) {
   const { ctrlKey, altKey, shiftKey, metaKey } = event;
@@ -32,22 +32,33 @@ export function isControlKeys(event: React.KeyboardEvent<HTMLInputElement>): boo
 
 export function isSpace(event: React.KeyboardEvent<HTMLInputElement>): boolean {
   const { key } = event;
-  return key === " ";
+  return key === ' ';
 }
 
 export function isSeparator(event: React.KeyboardEvent<HTMLInputElement>): boolean {
   const { key } = event;
-  return key === ":";
+  return key === ':';
 }
 
-export function beginTransition(event: React.KeyboardEvent<HTMLInputElement>): Transition | null {
-  const { currentTarget, key } = event;
+export function beginTransition(
+  event: React.KeyboardEvent<HTMLInputElement> | React.ClipboardEvent<HTMLInputElement>
+): Transition | null {
+  const { currentTarget } = event;
   const { selectionStart: from, selectionEnd: to, value } = currentTarget;
 
   if (from === null || to === null) return null;
 
+  let input;
+  if ('key' in event) {
+    input = event.key;
+  } else if ('clipboardData' in event) {
+    input = event.clipboardData.getData('text/plain');
+  } else {
+    return null;
+  }
+
   return {
-    input: key,
+    input,
     before: Object.freeze({
       value,
       selection: Object.freeze({ from, to })
@@ -55,7 +66,10 @@ export function beginTransition(event: React.KeyboardEvent<HTMLInputElement>): T
   };
 }
 
-export function finishTransition(event: React.KeyboardEvent<HTMLInputElement>, transition: TransitionResult): void {
+export function finishTransition(
+  event: React.UIEvent<HTMLInputElement> | React.ClipboardEvent<HTMLInputElement>,
+  transition: TransitionResult
+): void {
   const { currentTarget: target } = event;
   const { after } = transition;
   target.value = after.value;

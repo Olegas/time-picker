@@ -1,5 +1,5 @@
-import { TransitionResult, Transition } from "./types";
-import { cursor, untouched } from "./util";
+import { TransitionResult, Transition } from './types';
+import { cursor, untouched } from './util';
 
 export function predictorTransition(transition: Transition): TransitionResult {
   const { before, after, input } = transition;
@@ -9,7 +9,7 @@ export function predictorTransition(transition: Transition): TransitionResult {
   const { selection } = before;
   const { value } = after;
   const { from } = selection;
-  const [h, m] = value.split(":");
+  const [h, m] = value.split(':');
 
   if (from < 2) {
     // Hours are changed
@@ -41,7 +41,7 @@ export function predictorTransition(transition: Transition): TransitionResult {
         };
       }
     } else {
-      if (+input > 2 && (h[0] === " " || from === 0)) {
+      if (+input > 2 && (h[0] === ' ' || from === 0)) {
         return {
           ...transition,
           after: {

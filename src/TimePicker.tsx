@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { inputTransition } from "./inputTransition";
+import React, { useCallback } from 'react';
+import { inputTransition } from './inputTransition';
 import {
   beginTransition,
   finishTransition,
@@ -10,8 +10,9 @@ import {
   isSpace,
   withInputModifiers,
   withoutAnyModifiers
-} from "./util";
-import { predictorTransition } from "./predictorTransition";
+} from './util';
+import { predictorTransition } from './predictorTransition';
+import { pasteTransition } from './pasteTransition';
 
 export default function TimePicker() {
   const keyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -31,14 +32,9 @@ export default function TimePicker() {
   }, []);
 
   const paste = useCallback((event: React.ClipboardEvent<HTMLInputElement>) => {
-    const { clipboardData, currentTarget } = event;
-    const match = /(\d\d?):(\d\d?)/.exec(clipboardData.getData("text/plain"));
-    if (match) {
-      const [_, h, m] = match;
-      if (+h <= 24 && +m <= 59) {
-        currentTarget.value = `${h.padStart(2, "0")}:${m.padStart(2, "0")}`;
-      }
-    }
+    const transition = beginTransition(event);
+    if (transition === null) return;
+    finishTransition(event, pasteTransition(transition));
     event.preventDefault();
   }, []);
 
