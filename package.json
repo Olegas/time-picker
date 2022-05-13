@@ -1,7 +1,10 @@
 {
   "name": "time-picker",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.1-wip",
+  "module": "out/time-picker.es.js",
+  "files": [
+    "out"
+  ],
   "author": "Oleg Elifantiev <oleg@elifaniev.ru>",
   "license": "MIT",
   "scripts": {
@@ -12,7 +15,11 @@
     "prettier:fix": "prettier --write src/**/* test/**/* examples/**/*",
     "test": "jest",
     "demo": "parcel ./examples/demo/index.html",
-    "build": ""
+    "build": "rollup -c"
+  },
+  "peerDependencies": {
+    "react": "^17",
+    "react-dom": "^17"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -20,6 +27,8 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-typescript": "^8.3.2",
     "@types/jest": "^27.4.1",
     "@types/react": "^17",
     "eslint": "^8.13.0",
@@ -32,6 +41,7 @@
     "prettier": "^2.6.2",
     "react": "^17",
     "react-dom": "^17",
+    "rollup": "^2.72.1",
     "typescript": "^4.6.3"
   },
   "husky": {
